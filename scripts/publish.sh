@@ -31,4 +31,7 @@ if ! artifactory_curl -X PUT -u ${ARTIFACTORY_CREDS} ${DATALOAD} -v -f; then
   exit $PUBLISH_ARTIFACTORY_FAILURE
 fi
 
+# upload artifact version to eng prod s3 to be used by downstream jobs
+upload_job_data artifact_version "$(ci-pkginfo -t pkgname)@$(ci-pkginfo -t pkgsemver)"
+
 exit $SUCCESS
